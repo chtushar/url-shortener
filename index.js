@@ -29,17 +29,55 @@ app.get('/:id', (req, res) => {
   });
 });
 
-// app.use((err, req, res, next) => {
-//   if (err.status) {
-//     res.status(err.status);
-//   } else {
-//     res.status(500);
-//   }
-//   res.json({
-//     message: err.message,
-//     stack: err.stack,
-//   });
-// });
+const urlSchema = yup.object().shape({
+  alias: yup
+    .string()
+    .trim()
+    .matches(/^[\w\-]+$/i),
+  url: yup.string().trim().url().required(),
+  click: yup.number(),
+});
+
+app.post('/url', async (req, res, next) => {
+  let { alias, url } = req.body;
+  try {
+    await urlSchema.validate({
+      alias,
+      url,
+    });
+    if (!alias) {
+      alias = nanoid(5);
+    } else {
+      const e = await urls.findOne({ alias });
+      if (e) {
+        throw new Error('Alias in Use.');
+      }
+    }
+
+    const U = {
+      url,
+      alias,
+      click: 0,
+    };
+    const created = await urls.insert(U);
+    res.json(created);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Error Handler
+app.use((err, req, res, next) => {
+  if (err.status) {
+    res.status(err.status);
+  } else {
+    res.status(500);
+  }
+  res.json({
+    message: err.message,
+    stack: err.stack,
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
