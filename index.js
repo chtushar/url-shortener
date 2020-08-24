@@ -22,9 +22,11 @@ const urlSchema = yup.object().shape({
   url: yup.string().trim().url().required(),
 });
 
-// app.get('/:id', (req, res) => {
-//   res.json(req);
-// });
+app.get('/wtf', (req, res) => {
+  res.json({
+    OK: 'ok',
+  });
+});
 
 app.post('/url', async (req, res, next) => {
   let { alias, url } = req.body;
