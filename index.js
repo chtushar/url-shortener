@@ -14,11 +14,11 @@ const PORT = process.env.PORT || 8888;
 const urls = db.get('urls');
 urls.createIndex({ alias: 1 }, { unique: true });
 
-//app.use(helmet());
+app.use(helmet());
 app.use(morgan('tiny'));
 app.use(cors());
 app.use(express.json());
-app.use(express.static('./public'));
+app.use('/', express.static('public'));
 
 const urlSchema = yup.object().shape({
   alias: yup
