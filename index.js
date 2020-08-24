@@ -12,7 +12,7 @@ const db = monk(process.env.MONGO_URI);
 const PORT = process.env.PORT || 8888;
 
 const urls = db.get('urls');
-urls.createIndex('name');
+urls.createIndex({ alias: 1 }, { unique: true });
 
 app.use(helmet());
 app.use(morgan('tiny'));
@@ -29,7 +29,19 @@ const urlSchema = yup.object().shape({
   clicks: yup.number(),
 });
 
-// app.get('/:id', (req, res) => {});
+app.get('/:id', async (req, res) => {
+  const { id: alias } = req.params;
+  try {
+    const url = await urls.findOne({ alias });
+    if (url) {
+      res.redirect(url.url);
+    } else {
+      res.redirect('https://tush.xyz/');
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 app.post('/url', async (req, res, next) => {
   let { alias, url } = req.body;
