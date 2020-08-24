@@ -5,7 +5,9 @@ const helmet = require('helmet');
 const yup = require('yup');
 const monk = require('monk');
 const { nanoid } = require('nanoid');
-require('dotenv').config();
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config();
+}
 
 const app = express();
 const db = monk(process.env.MONGO_URI);
