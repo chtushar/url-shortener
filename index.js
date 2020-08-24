@@ -20,70 +20,24 @@ app.use(cors());
 app.use(express.json());
 app.use('/', express.static('public'));
 
-const urlSchema = yup.object().shape({
-  alias: yup
-    .string()
-    .trim()
-    .matches(/[\w\-]/i),
-  url: yup.string().trim().url().required(),
-  clicks: yup.number(),
-});
-
-app.get('/:id', async (req, res) => {
-  const { id: alias } = req.params;
-  try {
-    const url = await urls.findOne({ alias });
-    if (url) {
-      res.redirect(url.url);
-    } else {
-      res.redirect('https://tush.xyz/');
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-app.post('/url', async (req, res, next) => {
-  let { alias, url } = req.body;
-  try {
-    await urlSchema.validate({
-      alias,
-      url,
-    });
-    if (!alias) {
-      alias = nanoid(4);
-    } else {
-      const check = await urls.findOne({ alias });
-      if (check) {
-        throw new Error('Alias in use.');
-      }
-    }
-    //alias = alias.toLowerCase();
-    const U = {
-      alias,
-      url,
-      clicks: 0,
-    };
-    const created = await urls.insert(U);
-    res.json(created);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// app.get('/url/:id', (req, res) => {});
-
-app.use((err, req, res, next) => {
-  if (err.status) {
-    res.status(err.status);
-  } else {
-    res.status(500);
-  }
+app.get('/:id', (req, res) => {
+  const { id } = req.params;
   res.json({
-    message: err.message,
-    stack: err.stack,
+    id,
   });
 });
+
+// app.use((err, req, res, next) => {
+//   if (err.status) {
+//     res.status(err.status);
+//   } else {
+//     res.status(500);
+//   }
+//   res.json({
+//     message: err.message,
+//     stack: err.stack,
+//   });
+// });
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
