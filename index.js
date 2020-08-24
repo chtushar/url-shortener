@@ -22,11 +22,18 @@ app.use(cors());
 app.use(express.json());
 app.use('/', express.static('public'));
 
-app.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({
-    id,
-  });
+app.get('/:id', async (req, res) => {
+  const { id: alias } = req.params;
+  try {
+    const url = await urls.findOne({ alias });
+    if (url) {
+      return res.redirect(url.url);
+    } else {
+      return res.redirect('https://www.instagram.com/xyz.tush/');
+    }
+  } catch (err) {
+    return res.redirect('https://www.instagram.com/xyz.tush/');
+  }
 });
 
 const urlSchema = yup.object().shape({
