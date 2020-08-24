@@ -3,10 +3,16 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const yup = require('yup');
-const nanoid = require('nanoid');
+const monk = require('monk');
+const { nanoid } = require('nanoid');
+require('dotenv').config();
 
 const app = express();
+const db = monk(process.env.MONGO_URI);
 const PORT = process.env.PORT || 8888;
+
+const urls = db.get('urls');
+urls.createIndex('name');
 
 app.use(helmet());
 app.use(morgan('tiny'));
@@ -20,13 +26,10 @@ const urlSchema = yup.object().shape({
     .trim()
     .matches(/[\w\-]/i),
   url: yup.string().trim().url().required(),
+  clicks: yup.number(),
 });
 
-app.get('/wtf', (req, res) => {
-  res.json({
-    OK: 'ok',
-  });
-});
+// app.get('/:id', (req, res) => {});
 
 app.post('/url', async (req, res, next) => {
   let { alias, url } = req.body;
@@ -36,13 +39,21 @@ app.post('/url', async (req, res, next) => {
       url,
     });
     if (!alias) {
-      alias = nanoid();
+      alias = nanoid(4);
+    } else {
+      const check = await urls.findOne({ alias });
+      if (check) {
+        throw new Error('Alias in use.');
+      }
     }
-    alias = alias.toLowerCase();
-    res.json({
+    //alias = alias.toLowerCase();
+    const U = {
       alias,
       url,
-    });
+      clicks: 0,
+    };
+    const created = await urls.insert(U);
+    res.json(created);
   } catch (error) {
     next(error);
   }
