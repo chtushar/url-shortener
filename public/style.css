@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.default {
+  --background: #e7c14f;
+  --text-input: #ffd38c;
+  --button: #a18ce8;
+  --text-color: #002133;
+  --light: #f0f0f0;
+}
+
+body {
+  padding: 0 1.5rem;
+  text-align: center;
+  color: var(--text-color);
+  background-color: var(--light);
+}
+p {
+  margin: 1rem 0;
+  font-weight: 300;
+  width: 300px;
+}
+
+form {
+  height: 200px;
+  width: 300px;
+  margin: 1rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+form div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+form label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+form input[type='text'] {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+form input[type='submit'] {
+  padding: 8px 32px;
+  margin: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--text-color);
+  color: var(--light);
+  border: none;
+  border-radius: 5px;
+}

@@ -3,15 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <title>Chotufy</title>
   </head>
-  <body>
-    <h1>Chotu URL</h1>
+  <body class="default">
+    <h1>Chotufy</h1>
+    <p>
+      Chotufy is a small URL shortener project created using Node.js, Expree.js
+      ad MongoDB. Checkout the source code on
+      <a href="https://github.com/chtushar/url-shortener">Github</a>.
+    </p>
     <form>
-      <label for="url">URL</label>
-      <input name="url" id="url" type="alias" />
-      <label for="alias">Short Name</label>
-      <input name="alias" id="alias" type="text" />
+      <div>
+        <label for="url">URL: </label>
+        <input
+          name="url"
+          id="url"
+          type="text"
+          placeholder="Paste/Type your long URL here"
+        />
+      </div>
+      <div>
+        <label for="alias">Alias: </label>
+        <input
+          name="alias"
+          id="alias"
+          type="text"
+          placeholder="Type alias here"
+        />
+      </div>
       <input type="submit" value="Chotufy" />
     </form>
     <div id="message"></div>
