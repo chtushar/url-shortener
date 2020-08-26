@@ -23,6 +23,7 @@ body {
   --button: #a18ce8;
   --text-color: #002133;
   --light: #f0f0f0;
+  --success: #52f25d;
 }
 
 body {
@@ -76,4 +77,25 @@ form input[type='submit'] {
   color: var(--light);
   border: none;
   border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+form input[type='submit']:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#message {
+  margin-top: 1.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--success);
+  opacity: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#message::hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }

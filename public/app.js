@@ -17,7 +17,8 @@ async function postData(alias, url) {
       return data;
     })
     .then((data) => {
-      message.textContent = `Here's your link ${location.origin}/${data.alias}`;
+      message.style.opacity = 1;
+      message.innerHTML = `Click to Copy <br/> ${location.origin}/${data.alias}`;
     });
 }
 
