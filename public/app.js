@@ -1,5 +1,6 @@
 let form = document.querySelector('form');
 let message = document.querySelector('#message');
+let messageTextArea = document.querySelector('#message-textarea');
 
 async function postData(alias, url) {
   await fetch('/url', {
@@ -17,8 +18,8 @@ async function postData(alias, url) {
       return data;
     })
     .then((data) => {
-      message.style.opacity = 1;
-      message.innerHTML = `Click to Copy <br/> ${location.origin}/${data.alias}`;
+      messageTextArea.style.opacity = 1;
+      messageTextArea.textContent = `${location.origin}/${data.alias}`;
     });
 }
 
